@@ -502,8 +502,8 @@ class YandexAI:
                     }
                 ],
                 "temperature": 0.15,
-                # Qwen otherwise spends the whole output budget on hidden reasoning
-                # and may return content=null. Image description does not need CoT.
+                # Без этого Qwen может потратить весь лимит на скрытые рассуждения
+                # и вернуть пустой ответ. Для описания снимка длинная цепочка не нужна.
                 "reasoning_effort": "none",
                 "max_completion_tokens": 1800,
             }

@@ -13,7 +13,8 @@ from sklearn.metrics import accuracy_score, log_loss, mean_squared_error
 from benchmark import RANDOM_SEEDS, _feature_columns
 
 
-WORK_DIR = Path(r'A:\cosmo_autogluon')
+PACKAGE_ROOT = Path(__file__).resolve().parents[1]
+WORK_DIR = PACKAGE_ROOT / 'work'
 SOURCE_RUNS = {
     3030: WORK_DIR / 'results' / 'source_gating_20260904_224521',
     4040: WORK_DIR / 'results' / 'source_gating_20260904_225544',

@@ -12,15 +12,17 @@ from lightgbm import LGBMRegressor
 
 from benchmark import RANDOM_SEEDS, _feature_columns, build_features, load_bundle
 
+PACKAGE_ROOT = Path(__file__).resolve().parents[1]
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description='Мультисенсорный private-adapted submission')
-    parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[1])
-    parser.add_argument('--work-dir', type=Path, default=Path(r'A:\cosmo_autogluon'))
+    parser.add_argument('--root', type=Path, default=PACKAGE_ROOT)
+    parser.add_argument('--work-dir', type=Path, default=PACKAGE_ROOT / 'work')
     parser.add_argument(
         '--output',
         type=Path,
-        default=Path(__file__).resolve().parents[1] / 'submission_v2_adapted.csv',
+        default=PACKAGE_ROOT / 'output' / 'submission_v2_adapted.csv',
     )
     return parser.parse_args()
 

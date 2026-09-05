@@ -46,10 +46,17 @@ function inlineMarkdown(value: string) {
 function markdownContent(markdown: string): Content[] {
   return markdown.split('\n').flatMap((line): Content[] => {
     if (line.startsWith('### ')) {
-      return [{ text: inlineMarkdown(line.slice(4)), style: 'subheading' } as Content];
+      return [
+        { text: inlineMarkdown(line.slice(4)), style: 'subheading' } as Content,
+      ];
     }
     if (line.startsWith('## ')) {
-      return [{ text: inlineMarkdown(line.slice(3)), style: 'sectionHeading' } as Content];
+      return [
+        {
+          text: inlineMarkdown(line.slice(3)),
+          style: 'sectionHeading',
+        } as Content,
+      ];
     }
     if (/^[-*] /.test(line)) {
       return [
@@ -64,7 +71,12 @@ function markdownContent(markdown: string): Content[] {
       return [
         {
           columns: [
-            { text: `${numbered[1]}.`, width: 20, bold: true, color: '#3f8d63' },
+            {
+              text: `${numbered[1]}.`,
+              width: 20,
+              bold: true,
+              color: '#3f8d63',
+            },
             { text: inlineMarkdown(numbered[2]), width: '*' },
           ],
           margin: [0, 1, 0, 3],
@@ -91,7 +103,9 @@ function chartSvg(visual: AIVisualization) {
   const x = (index: number) =>
     padX + (index / Math.max(1, points.length - 1)) * (width - padX * 2);
   const y = (value: number) =>
-    height - padY - ((value - min) / Math.max(0.1, max - min)) * (height - padY * 2);
+    height -
+    padY -
+    ((value - min) / Math.max(0.1, max - min)) * (height - padY * 2);
   const path = (key: 'value' | 'normal') =>
     points
       .map((point, index) =>
@@ -137,7 +151,8 @@ function contourSvg(visual: AIVisualization) {
 }
 
 function visualizationContent(visual: AIVisualization): Content[] {
-  const svg = visual.kind === 'ndvi_chart' ? chartSvg(visual) : contourSvg(visual);
+  const svg =
+    visual.kind === 'ndvi_chart' ? chartSvg(visual) : contourSvg(visual);
   if (!svg) return [];
   return [
     {
@@ -184,7 +199,13 @@ export async function downloadAgronomyReport({
           stack: [
             { text: formattedDate },
             ...(options.sources
-              ? [{ text: `ПолеЗрение · ${report.model}`, fontSize: 7, margin: [0, 3, 0, 0] }]
+              ? [
+                  {
+                    text: `ПолеЗрение · ${report.model}`,
+                    fontSize: 7,
+                    margin: [0, 3, 0, 0],
+                  },
+                ]
               : []),
           ],
           alignment: 'right',
@@ -200,9 +221,27 @@ export async function downloadAgronomyReport({
         widths: ['*', '*', '*'],
         body: [
           [
-            { text: [{ text: 'ПЛОЩАДЬ\n', style: 'metaLabel' }, { text: `${field.areaHa.toLocaleString('ru-RU')} га`, bold: true }] },
-            { text: [{ text: 'КУЛЬТУРА\n', style: 'metaLabel' }, { text: field.crop || 'Не указана', bold: true }] },
-            { text: [{ text: 'ПОСЛЕДНЯЯ СЦЕНА\n', style: 'metaLabel' }, { text: field.sceneDate || 'Нет данных', bold: true }] },
+            {
+              text: [
+                { text: 'ПЛОЩАДЬ\n', style: 'metaLabel' },
+                {
+                  text: `${field.areaHa.toLocaleString('ru-RU')} га`,
+                  bold: true,
+                },
+              ],
+            },
+            {
+              text: [
+                { text: 'КУЛЬТУРА\n', style: 'metaLabel' },
+                { text: field.crop || 'Не указана', bold: true },
+              ],
+            },
+            {
+              text: [
+                { text: 'ПОСЛЕДНЯЯ СЦЕНА\n', style: 'metaLabel' },
+                { text: field.sceneDate || 'Нет данных', bold: true },
+              ],
+            },
           ],
         ],
       },
@@ -221,8 +260,13 @@ export async function downloadAgronomyReport({
   ];
 
   if (report.visualizations.length) {
-    content.push({ text: 'Визуальные материалы', style: 'sectionHeading' } as Content);
-    report.visualizations.forEach((visual) => content.push(...visualizationContent(visual)));
+    content.push({
+      text: 'Визуальные материалы',
+      style: 'sectionHeading',
+    } as Content);
+    report.visualizations.forEach((visual) =>
+      content.push(...visualizationContent(visual)),
+    );
   }
   const definition: TDocumentDefinitions = {
     pageSize: 'A4',
@@ -235,12 +279,38 @@ export async function downloadAgronomyReport({
       lineHeight: 1.35,
     },
     styles: {
-      brand: { fontSize: 11, bold: true, color: PDF_GREEN, characterSpacing: 1.4 },
-      eyebrow: { fontSize: 8, bold: true, color: '#4c8b68', characterSpacing: 1.1, margin: [0, 3, 0, 0] },
+      brand: {
+        fontSize: 11,
+        bold: true,
+        color: PDF_GREEN,
+        characterSpacing: 1.4,
+      },
+      eyebrow: {
+        fontSize: 8,
+        bold: true,
+        color: '#4c8b68',
+        characterSpacing: 1.1,
+        margin: [0, 3, 0, 0],
+      },
       title: { fontSize: 26, bold: true, color: '#172820' },
-      metaLabel: { fontSize: 7, bold: true, color: PDF_MUTED, characterSpacing: 0.7 },
-      sectionHeading: { fontSize: 16, bold: true, color: PDF_GREEN, margin: [0, 15, 0, 7] },
-      subheading: { fontSize: 12, bold: true, color: '#245f49', margin: [0, 9, 0, 4] },
+      metaLabel: {
+        fontSize: 7,
+        bold: true,
+        color: PDF_MUTED,
+        characterSpacing: 0.7,
+      },
+      sectionHeading: {
+        fontSize: 16,
+        bold: true,
+        color: PDF_GREEN,
+        margin: [0, 15, 0, 7],
+      },
+      subheading: {
+        fontSize: 12,
+        bold: true,
+        color: '#245f49',
+        margin: [0, 9, 0, 4],
+      },
       body: { fontSize: 10, margin: [0, 0, 0, 6] },
       visualHeading: { fontSize: 11, bold: true, color: PDF_GREEN },
       visualSubtitle: { fontSize: 8, color: PDF_MUTED, margin: [0, 2, 0, 0] },
@@ -266,9 +336,13 @@ export async function downloadAgronomyReport({
   const fontNamespace = embeddedFonts as unknown as {
     default?: Record<string, string>;
   };
-  const virtualFonts = fontNamespace.default ?? (embeddedFonts as unknown as Record<string, string>);
+  const virtualFonts =
+    fontNamespace.default ??
+    (embeddedFonts as unknown as Record<string, string>);
   const filename = `${safeFilename(field.name)}-ai-report.pdf`;
   await new Promise<void>((resolve) => {
-    pdfMake.createPdf(definition, undefined, undefined, virtualFonts).download(filename, resolve);
+    pdfMake
+      .createPdf(definition, undefined, undefined, virtualFonts)
+      .download(filename, resolve);
   });
 }

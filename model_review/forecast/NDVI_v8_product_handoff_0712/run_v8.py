@@ -36,7 +36,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
-    """Подставляет пользовательские пути и запускает исходный v8 pipeline."""
+    """Подставляет пользовательские пути и запускает исходный конвейер v8."""
     args = parse_args()
     for path in (args.train_zip, args.test, args.old_test, args.old_ground_truth):
         if not path.is_file():
@@ -70,4 +70,3 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
-

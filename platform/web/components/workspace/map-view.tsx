@@ -1,5 +1,5 @@
 'use client';
-/* oxlint-disable react-hooks/exhaustive-deps -- MapLibre is initialized once; dedicated effects synchronize mutable inputs. */
+/* oxlint-disable react-hooks/exhaustive-deps -- MapLibre создаётся один раз, а изменяемые данные синхронизируют отдельные эффекты. */
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 
@@ -267,7 +267,7 @@ export default function MapView({
     comparisonBlendRef.current = comparisonBlend;
   }, [comparisonBlend]);
 
-  // MapLibre owns one imperative lifecycle; later effects synchronize changing data and styles.
+  // Один эффект управляет жизненным циклом MapLibre, остальные обновляют данные и стили.
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
 

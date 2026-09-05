@@ -13,7 +13,10 @@ function collect(directory) {
   });
 }
 
-const files = [...roots.flatMap(collect), join('hooks', 'use-vegetation-webmcp.ts')];
+const files = [
+  ...roots.flatMap(collect),
+  join('hooks', 'use-vegetation-webmcp.ts'),
+];
 const cli = join(process.cwd(), 'node_modules', 'oxlint', 'bin', 'oxlint');
 const result = spawnSync(process.execPath, [cli, '--no-ignore', ...files], {
   cwd: process.cwd(),

@@ -1,4 +1,4 @@
-"""Evaluate v7 core with released old-test targets used as context donors."""
+"""Оценивает ядро v8 с опубликованными целями старого теста как контекстом."""
 
 from __future__ import annotations
 
@@ -25,11 +25,12 @@ from new_test_v7_clean_submission import (
 )
 
 
-TRAIN_ZIP = Path(r'A:\Downloads\doc-1788536686.zip')
-OLD_TEST = Path(r'A:\Downloads\doc-1788536731.csv')
-GROUND_TRUTH = Path(r'A:\Downloads\doc-1788600416 (2).zip')
-NEW_TEST = Path(r'A:\Downloads\New_test.csv')
-ROOT = Path(r'A:\cosmo_autogluon')
+PACKAGE_ROOT = Path(__file__).resolve().parents[1]
+DATA_DIR = PACKAGE_ROOT / 'data'
+TRAIN_ZIP = DATA_DIR / 'train_dataset.zip'
+OLD_TEST = DATA_DIR / 'old_private_features.csv'
+GROUND_TRUTH = DATA_DIR / 'old_ground_truth.zip'
+NEW_TEST = DATA_DIR / 'New_test.csv'
 COMMON_COLUMNS = [
     'anon_polygon_id',
     'date',
@@ -76,8 +77,8 @@ def released_old_frame() -> pd.DataFrame:
         raise ValueError('Released truth does not cover all old synthetic gaps')
     old.loc[selected, 'primary_ndvi'] = values[selected]
     old['source'] = source_labels(old)
-    # Revealed targets add labels, but the target source remains the organizer
-    # cascade inferred from available sensor measurements.
+    # Опубликованные цели добавляют разметку, а источник значения по-прежнему
+    # определяется каскадом организатора из доступных спутниковых измерений.
     old.loc[selected, 'source'] = source_labels(old.loc[selected])
     return old
 

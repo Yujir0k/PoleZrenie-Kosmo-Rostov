@@ -1,4 +1,4 @@
-"""E034: test-faithful validation и линейный multi-sensor state-space imputer.
+"""E034: честная тестовая валидация и линейное мультисенсорное восстановление.
 
 Состояние x_t — латентный дневной NDVI. Оценка является MAP-решением:
   sum_i w_i (y_i - x_ti)^2 + a ||x-c||^2 + b ||D(x-c)||^2,
@@ -23,7 +23,7 @@ from benchmark import load_bundle
 
 
 ROOT = Path(__file__).resolve().parents[1]
-WORK = Path(r'A:\cosmo_autogluon')
+WORK = ROOT / 'work'
 SENSORS = ('s2', 'landsat', 'modis')
 TEST_RATE = .15
 
@@ -38,9 +38,9 @@ class Config:
 
 
 CONFIGS = (
-    # Предел local-linear state без содержательного seasonal prior.
+    # Предел локально-линейного состояния без содержательной сезонной нормы.
     Config('state_linear_limit', 1_000., 0., .0001, 1.0),
-    # Мягкое притяжение к climatology; гладкость относится к x, не к x-c.
+    # Мягкое притяжение к климатологии; гладкость относится к x, а не к x-c.
     Config('state_seasonal', 80., 0., .015, 1.0),
     Config('state_fused_light', 80., .35, .015, 1.0),
 )
@@ -70,7 +70,7 @@ def private_query(private: pd.DataFrame, seed: int) -> pd.DataFrame:
 
 
 def calibrated_offsets(frame: pd.DataFrame, masked: set[tuple[str, pd.Timestamp]]) -> dict[str, float]:
-    """Robust additive calibration raw sensor NDVI -> cascade primary NDVI."""
+    """Устойчиво калибрует NDVI сенсора относительно каскадного primary NDVI."""
     keys = pd.MultiIndex.from_frame(frame[['anon_polygon_id', 'date']])
     hidden = keys.isin(pd.MultiIndex.from_tuples(masked, names=['anon_polygon_id', 'date']))
     usable = frame['primary_ndvi'].notna().to_numpy() & ~hidden
@@ -105,7 +105,7 @@ def state_prediction(
     masked: set[tuple[str, pd.Timestamp]],
     config: Config,
 ) -> np.ndarray:
-    """Kalman-equivalent batch smoother для всех query без доступа к их event values."""
+    """Пакетно сглаживает запросы без доступа к значениям скрытых событий."""
     offsets = calibrated_offsets(frame, masked)
     prediction = np.full(len(query), np.nan)
     epoch = pd.Timestamp('2010-01-01')

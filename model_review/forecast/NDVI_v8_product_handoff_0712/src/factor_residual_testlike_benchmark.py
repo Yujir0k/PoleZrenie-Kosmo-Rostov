@@ -1,4 +1,4 @@
-"""E035: global low-rank correction для синхронных residuals между полями.
+"""E035: глобальная низкоранговая коррекция синхронных остатков между полями.
 
 В отличие от E021, это не per-field graph/ridge. Матрица leave-one-event-out
 residuals R[date, field] восстанавливается общей rank-k факторизацией.
@@ -25,12 +25,12 @@ from state_space_testlike_benchmark import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
-WORK = Path(r'A:\cosmo_autogluon')
+WORK = ROOT / 'work'
 RANKS = (2, 4, 8)
 
 
 def residual_pivot(frame: pd.DataFrame, masked: set[tuple[str, pd.Timestamp]]) -> pd.DataFrame:
-    """Leave-one-event-out temporal residual для всех доступных donor events."""
+    """Строит временные остатки с исключением текущего события для всех доноров."""
     records: list[tuple[pd.Timestamp, str, float]] = []
     for polygon, group in frame.groupby('anon_polygon_id', sort=False):
         part = group.sort_values('date')
@@ -42,7 +42,7 @@ def residual_pivot(frame: pd.DataFrame, masked: set[tuple[str, pd.Timestamp]]) -
         dates = part.loc[observed, 'date'].to_numpy()
         if len(values) < 3:
             continue
-        # Значение i не используется для собственной baseline-интерполяции.
+        # Значение i не используется для собственной базовой интерполяции.
         for index in range(1, len(values) - 1):
             left_date, right_date = pd.Timestamp(dates[index - 1]), pd.Timestamp(dates[index + 1])
             current_date = pd.Timestamp(dates[index])
@@ -54,7 +54,7 @@ def residual_pivot(frame: pd.DataFrame, masked: set[tuple[str, pd.Timestamp]]) -
 
 
 def low_rank_impute(pivot: pd.DataFrame, rank: int, iterations: int = 8) -> pd.DataFrame:
-    """Soft-free ALS: SVD заполняет только пропуски, реальные donors остаются фиксированы."""
+    """Заполняет SVD только пропуски, сохраняя реальные донорские значения."""
     matrix = pivot.to_numpy(float)
     observed = np.isfinite(matrix)
     count = observed.sum(axis=0)

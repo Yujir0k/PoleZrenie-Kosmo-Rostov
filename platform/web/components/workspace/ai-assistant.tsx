@@ -51,13 +51,17 @@ const quickPrompts = [
 ];
 
 function renderInlineMarkdown(text: string) {
-  return text.split(/(\*\*.+?\*\*)/g).map((part, index) =>
-    part.startsWith('**') && part.endsWith('**') ? (
-      <strong key={`${index}-${part.slice(2, 10)}`}>{part.slice(2, -2)}</strong>
-    ) : (
-      part
-    ),
-  );
+  return text
+    .split(/(\*\*.+?\*\*)/g)
+    .map((part, index) =>
+      part.startsWith('**') && part.endsWith('**') ? (
+        <strong key={`${index}-${part.slice(2, 10)}`}>
+          {part.slice(2, -2)}
+        </strong>
+      ) : (
+        part
+      ),
+    );
 }
 
 function filterReportText(text: string, includeSources: boolean) {
@@ -359,7 +363,9 @@ export default function AIAssistant({
     setError('');
     try {
       const included = [
-        reportOptions.ndviChart ? 'график фактического NDVI и сезонной нормы' : null,
+        reportOptions.ndviChart
+          ? 'график фактического NDVI и сезонной нормы'
+          : null,
         reportOptions.fieldContour ? 'схему контура поля' : null,
         reportOptions.sources ? 'источники и ограничения данных' : null,
       ].filter(Boolean);
@@ -742,7 +748,11 @@ export default function AIAssistant({
                       onClick={() => void downloadReport()}
                       disabled={pdfBusy}
                     >
-                      {pdfBusy ? <LoaderCircle size={16} /> : <Download size={16} />}
+                      {pdfBusy ? (
+                        <LoaderCircle size={16} />
+                      ) : (
+                        <Download size={16} />
+                      )}
                       {pdfBusy ? 'Создаю PDF…' : 'Скачать PDF'}
                     </button>
                   </header>

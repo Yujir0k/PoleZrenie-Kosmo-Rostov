@@ -13,8 +13,8 @@ async def _run_analysis_isolated(job_id: str) -> None:
     try:
         await run_analysis(job_id)
     finally:
-        # Celery invokes a fresh asyncio loop per synchronous task. Connections
-        # pooled by asyncpg must be disposed before that loop is closed.
+        # Celery создаёт новый asyncio-цикл для каждой синхронной задачи.
+        # Соединения asyncpg нужно закрыть до завершения этого цикла.
         await engine.dispose()
 
 

@@ -1,4 +1,4 @@
-"""E036: добавляет честный global rank-2 factor как feature в adapted prior v4."""
+"""E036: добавляет глобальный фактор ранга 2 в адаптированную prior-модель v4."""
 
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ from factor_residual_testlike_benchmark import factor_prediction, low_rank_imput
 
 
 ROOT = Path(__file__).resolve().parents[1]
-WORK = Path(r'A:\cosmo_autogluon')
+WORK = ROOT / 'work'
 SOURCE_RUNS = {
     3030: WORK / 'results' / 'source_gating_20260904_224521',
     4040: WORK / 'results' / 'source_gating_20260904_225544',
@@ -46,7 +46,7 @@ def factor_base(bundle: object) -> pd.DataFrame:
 
 
 def factor_private(bundle: object, validation_seed: int) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """Validation скрыта во всех adaptation contexts ровно как в исходном cache."""
+    """Скрывает validation во всех адаптационных контекстах как в исходном кэше."""
     directory = WORK / f'features_v2_private_adapt_{validation_seed}'
     validation = pd.read_parquet(directory / 'validation.parquet')
     validation_keys = key_set(validation)

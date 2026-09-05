@@ -1,8 +1,8 @@
-"""Rebuild the confirmed v7 architecture for the leak-free replacement test.
+"""Воспроизводит подтверждённую архитектуру v7 для replacement test без утечек.
 
-The replacement file intentionally omits organizer climatology columns.  This
-pipeline leaves them unavailable and rebuilds every masked feature set, so no
-target-derived climatology from the withdrawn test can enter the prediction.
+В replacement-файле нет климатологических столбцов организатора. Пайплайн не
+восстанавливает их из целевой переменной и пересчитывает признаки для каждой
+маски, поэтому разметка снятого теста не попадает в прогноз.
 """
 
 from __future__ import annotations
@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import json
 import subprocess
+import sys
 import time
 import zipfile
 from pathlib import Path
@@ -34,11 +35,12 @@ from factor_feature_prior_benchmark import add_factor
 from source_classifier_v2_benchmark import add_schedule_features
 
 
-DEFAULT_TRAIN = Path(r'A:\Downloads\doc-1788536686.zip')
-DEFAULT_TEST = Path(r'A:\Downloads\New_test.csv')
-DEFAULT_WORK = Path(r'A:\cosmo_autogluon\new_test_v7_clean')
-DEFAULT_OUTPUT = Path(r'A:\Downloads\submission_v7_clean_new_test.csv')
-DEFAULT_TORCH_PYTHON = Path(r'C:\Anaconda3\python.exe')
+PACKAGE_ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_TRAIN = PACKAGE_ROOT / 'data' / 'train_dataset.zip'
+DEFAULT_TEST = PACKAGE_ROOT / 'data' / 'New_test.csv'
+DEFAULT_WORK = PACKAGE_ROOT / 'work' / 'new_test_v7_clean'
+DEFAULT_OUTPUT = PACKAGE_ROOT / 'output' / 'submission_v7_clean_new_test.csv'
+DEFAULT_TORCH_PYTHON = Path(sys.executable)
 CLIMATOLOGY_COLUMNS = ('ndvi_climatology_mean', 'ndvi_climatology_std')
 
 
@@ -61,7 +63,7 @@ def frame_keys(frame: pd.DataFrame) -> set[tuple[str, pd.Timestamp]]:
 
 
 def load_clean_bundle(train_zip: Path, test_path: Path) -> DatasetBundle:
-    """Load original train and replacement test without withdrawn climatology."""
+    """Загружает исходный train и replacement test без удалённой климатологии."""
     with zipfile.ZipFile(train_zip) as archive:
         train = pd.read_csv(archive.open('train_dataset.csv'), parse_dates=['date'])
     private = pd.read_csv(test_path, parse_dates=['date'])
@@ -80,9 +82,9 @@ def load_clean_bundle(train_zip: Path, test_path: Path) -> DatasetBundle:
 
     train = train.copy()
     private = private.copy()
-    # The organizer removed these columns after identifying leakage.  Setting
-    # both train and test to NaN prevents train/test missingness shift and makes
-    # the model rely on mask-safe history features built below.
+    # Организатор удалил эти столбцы после обнаружения утечки. Одинаковые NaN
+    # в train и test убирают сдвиг по пропускам, поэтому модель опирается только
+    # на безопасные исторические признаки, рассчитанные ниже.
     for column in CLIMATOLOGY_COLUMNS:
         train[column] = np.nan
         private[column] = np.nan

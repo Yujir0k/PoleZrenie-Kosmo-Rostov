@@ -44,7 +44,8 @@ export default function LandingPage({ onOpen }: LandingPageProps) {
         <div className="hero-copy">
           <h1>Состояние каждого поля — в одном понятном окне</h1>
           <p>
-            Спутниковые наблюдения, восстановленный NDVI и объяснимые аномалии — без ручной подготовки данных.
+            Спутниковые наблюдения, восстановленный NDVI и объяснимые аномалии —
+            без ручной подготовки данных.
           </p>
           <button className="landing-primary hero-cta" onClick={openWorkspace}>
             Начать мониторинг

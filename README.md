@@ -6,8 +6,7 @@
 
 - `platform/` — FastAPI, Celery, PostgreSQL/PostGIS, Next.js и автоматический сбор Sentinel-2, Landsat, MODIS, ERA5-Land и WorldCover;
 - `model_review/forecast/NDVI_v8_product_handoff_0712/` — актуальная конкурсная модель v8, данные и полный batch-пайплайн;
-- `model_review/anomaly/ndvi_anomaly_detector/` — модель детекции и интерпретации аномалий;
-- `критерии оценки.md` и `условие задачи.md` — требования соревнования.
+- `model_review/anomaly/ndvi_anomaly_detector/` — модель детекции и интерпретации аномалий.
 
 ## Запуск веб-сервиса
 

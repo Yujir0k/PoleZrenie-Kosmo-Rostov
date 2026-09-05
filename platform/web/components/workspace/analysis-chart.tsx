@@ -78,9 +78,7 @@ const mean = (values: Array<number | null>) => {
 
 const sum = (values: Array<number | null>) => {
   const valid = values.filter((value): value is number => value != null);
-  return valid.length
-    ? valid.reduce((total, value) => total + value, 0)
-    : null;
+  return valid.length ? valid.reduce((total, value) => total + value, 0) : null;
 };
 
 function modeTooltip(mode: ChartMode, point: TimeseriesPoint) {
@@ -104,7 +102,10 @@ function modeTooltip(mode: ChartMode, point: TimeseriesPoint) {
                   ? 'ранний риск'
                   : 'в пределах нормы',
           ],
-          ['NDVI / медиана', `${valueOrDash(point.restored)} / ${valueOrDash(point.robustMedian)}`],
+          [
+            'NDVI / медиана',
+            `${valueOrDash(point.restored)} / ${valueOrDash(point.robustMedian)}`,
+          ],
           ['Исторических сезонов', String(point.normSampleCount)],
         ]
       : mode === 'weather'
@@ -112,14 +113,33 @@ function modeTooltip(mode: ChartMode, point: TimeseriesPoint) {
             ['NDVI', valueOrDash(point.observed ?? point.restored)],
             ['Температура', `${valueOrDash(point.temperature, 1)} °C`],
             ['Осадки', `${valueOrDash(point.precipitation, 1)} мм`],
-            ['Источник снимка', point.observationSource ?? 'нет фактической сцены'],
+            [
+              'Источник снимка',
+              point.observationSource ?? 'нет фактической сцены',
+            ],
           ]
         : [
             ['Источник', point.observationSource ?? 'нет фактической сцены'],
-            ['Факт / модель', `${valueOrDash(point.observed)} / ${valueOrDash(point.restored)}`],
-            ['Неопределённость', `±${uncertainty.toFixed(3).replace('.', ',')}`],
-            ['Облачность', point.cloudCover == null ? '—' : `${valueOrDash(point.cloudCover, 1)}%`],
-            ['Валидные пиксели', point.validPixels == null ? '—' : String(Math.round(point.validPixels))],
+            [
+              'Факт / модель',
+              `${valueOrDash(point.observed)} / ${valueOrDash(point.restored)}`,
+            ],
+            [
+              'Неопределённость',
+              `±${uncertainty.toFixed(3).replace('.', ',')}`,
+            ],
+            [
+              'Облачность',
+              point.cloudCover == null
+                ? '—'
+                : `${valueOrDash(point.cloudCover, 1)}%`,
+            ],
+            [
+              'Валидные пиксели',
+              point.validPixels == null
+                ? '—'
+                : String(Math.round(point.validPixels)),
+            ],
           ];
   return `<b>${date}</b><div class="chart-tooltip-grid">${rows
     .map(([label, value]) => `<span>${label}</span><b>${value}</b>`)
@@ -235,7 +255,11 @@ function buildFocusedOption(
           symbol: 'circle',
           symbolSize: 6,
           lineStyle: { color: '#8b5874', width: 2.5 },
-          itemStyle: { color: '#8b5874', borderColor: '#fffef8', borderWidth: 1 },
+          itemStyle: {
+            color: '#8b5874',
+            borderColor: '#fffef8',
+            borderWidth: 1,
+          },
           markArea: {
             silent: true,
             data: [
@@ -452,7 +476,11 @@ function buildFocusedOption(
         type: 'scatter',
         data: points.map((point) => point.observed),
         symbolSize: 7,
-        itemStyle: { color: '#173f35', borderColor: '#fffef8', borderWidth: 1.5 },
+        itemStyle: {
+          color: '#173f35',
+          borderColor: '#fffef8',
+          borderWidth: 1.5,
+        },
         z: 8,
       },
       {
@@ -608,7 +636,9 @@ export default function AnalysisChart({
     const observedCount = visiblePoints.filter(
       (point) => point.observed != null,
     ).length;
-    const restoredCount = visiblePoints.filter((point) => point.isImputed).length;
+    const restoredCount = visiblePoints.filter(
+      (point) => point.isImputed,
+    ).length;
     const averageUncertainty = mean(
       visiblePoints.map(
         (point) => (point.confidenceHigh - point.confidenceLow) / 2,
@@ -631,7 +661,10 @@ export default function AnalysisChart({
                 : selectedZ <= -1.2
                   ? 'Ранний риск'
                   : 'В норме',
-          hint: selectedZ == null ? 'недостаточно истории' : `z = ${valueOrDash(selectedZ)}`,
+          hint:
+            selectedZ == null
+              ? 'недостаточно истории'
+              : `z = ${valueOrDash(selectedZ)}`,
           tone: selectedZ != null && selectedZ <= -1.2 ? 'risk' : 'good',
         },
         {
@@ -660,7 +693,9 @@ export default function AnalysisChart({
       return [
         {
           label: 'NDVI на выбранную дату',
-          value: valueOrDash(current ? current.observed ?? current.restored : null),
+          value: valueOrDash(
+            current ? (current.observed ?? current.restored) : null,
+          ),
           hint:
             deviation == null
               ? 'сезонная норма недоступна'
@@ -669,13 +704,22 @@ export default function AnalysisChart({
         },
         {
           label: 'Осадки · последние 14 дней',
-          value: precipitation14d == null ? '—' : `${valueOrDash(precipitation14d, 1)} мм`,
+          value:
+            precipitation14d == null
+              ? '—'
+              : `${valueOrDash(precipitation14d, 1)} мм`,
           hint: 'сумма по ERA5-Land',
-          tone: precipitation14d != null && precipitation14d < 5 ? 'warn' : 'neutral',
+          tone:
+            precipitation14d != null && precipitation14d < 5
+              ? 'warn'
+              : 'neutral',
         },
         {
           label: 'Средняя температура · 14 дней',
-          value: temperature14d == null ? '—' : `${valueOrDash(temperature14d, 1)} °C`,
+          value:
+            temperature14d == null
+              ? '—'
+              : `${valueOrDash(temperature14d, 1)} °C`,
           hint: 'по доступным погодным данным',
           tone: 'neutral',
         },
@@ -689,7 +733,10 @@ export default function AnalysisChart({
                 : 'Явной связи нет',
           hint: 'гипотеза, не подтверждение причины',
           tone:
-            precipitation14d != null && precipitation14d < 5 && deviation != null && deviation < 0
+            precipitation14d != null &&
+            precipitation14d < 5 &&
+            deviation != null &&
+            deviation < 0
               ? 'warn'
               : 'neutral',
         },
@@ -702,9 +749,7 @@ export default function AnalysisChart({
       const restoredShare = visiblePoints.length
         ? (restoredCount / visiblePoints.length) * 100
         : 0;
-      const cloudAverage = mean(
-        visiblePoints.map((point) => point.cloudCover),
-      );
+      const cloudAverage = mean(visiblePoints.map((point) => point.cloudCover));
       return [
         {
           label: 'Фактических снимков',
@@ -720,13 +765,20 @@ export default function AnalysisChart({
         },
         {
           label: 'Средняя неопределённость',
-          value: averageUncertainty == null ? '—' : `±${valueOrDash(averageUncertainty, 3)}`,
+          value:
+            averageUncertainty == null
+              ? '—'
+              : `±${valueOrDash(averageUncertainty, 3)}`,
           hint: 'уже — надёжнее оценка модели',
-          tone: averageUncertainty != null && averageUncertainty > 0.05 ? 'warn' : 'good',
+          tone:
+            averageUncertainty != null && averageUncertainty > 0.05
+              ? 'warn'
+              : 'good',
         },
         {
           label: 'Средняя облачность',
-          value: cloudAverage == null ? '—' : `${valueOrDash(cloudAverage, 0)}%`,
+          value:
+            cloudAverage == null ? '—' : `${valueOrDash(cloudAverage, 0)}%`,
           hint: 'для фактических спутниковых сцен',
           tone: cloudAverage != null && cloudAverage > 50 ? 'warn' : 'neutral',
         },
@@ -735,8 +787,13 @@ export default function AnalysisChart({
     return [
       {
         label: 'NDVI на выбранную дату',
-        value: valueOrDash(current ? current.observed ?? current.restored : null),
-        hint: current?.observed != null ? 'фактический снимок' : 'восстановлено моделью',
+        value: valueOrDash(
+          current ? (current.observed ?? current.restored) : null,
+        ),
+        hint:
+          current?.observed != null
+            ? 'фактический снимок'
+            : 'восстановлено моделью',
         tone: 'neutral',
       },
       {
@@ -1368,7 +1425,9 @@ export default function AnalysisChart({
               <strong>
                 {chartMode === 'risk'
                   ? valueOrDash(selectedPoint.robustZ)
-                  : valueOrDash(selectedPoint.observed ?? selectedPoint.restored)}
+                  : valueOrDash(
+                      selectedPoint.observed ?? selectedPoint.restored,
+                    )}
               </strong>
             </span>
             <span>
@@ -1396,7 +1455,10 @@ export default function AnalysisChart({
           </div>
         ) : null}
         {state === 'ready' ? (
-          <div className="chart-insight-strip" aria-label="Ключевые выводы графика">
+          <div
+            className="chart-insight-strip"
+            aria-label="Ключевые выводы графика"
+          >
             {insightCards.map((card) => (
               <article key={card.label} data-tone={card.tone}>
                 <span>{card.label}</span>
