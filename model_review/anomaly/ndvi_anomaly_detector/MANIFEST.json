@@ -1,0 +1,74 @@
+{
+  "package": "ndvi_anomaly_detector",
+  "version": "1.0.0",
+  "purpose": "strict explainable anomaly detection; no leaderboard model",
+  "validation": {
+    "events": 7,
+    "polygons_with_events": 7,
+    "daily_points": 12354,
+    "skipped_one_season_fields": 20,
+    "matches_research_event_intervals": true
+  },
+  "files": [
+    {
+      "path": "anomaly_core.py",
+      "bytes": 15241,
+      "sha256": "e5343f50cb0ffb88b9de4391bca052a80d82c27f15bdfe416bfc5a99c6914f86"
+    },
+    {
+      "path": "example_output/anomaly_daily_points.csv",
+      "bytes": 3144667,
+      "sha256": "e74e60ee8d7cbdbf5a72043ddd55a54bb9782989a8f55c01f1ba112428ed52db"
+    },
+    {
+      "path": "example_output/anomaly_events.csv",
+      "bytes": 5481,
+      "sha256": "d35aca809f23d804cd5b8114299f6e1158776890fe0f27c0d7a1f7c285d244e5"
+    },
+    {
+      "path": "example_output/quality_flags.csv",
+      "bytes": 455,
+      "sha256": "047447014aa3d25520d154433d5dc7537f007580648b2f7243d6f93f151a76e1"
+    },
+    {
+      "path": "example_output/skipped_fields.csv",
+      "bytes": 2529,
+      "sha256": "4ef8a308f3dd0608ce41eef9080b1912693d845fcedfa3906e71b1edccb5b62d"
+    },
+    {
+      "path": "example_output/summary.json",
+      "bytes": 123,
+      "sha256": "111002810e9e92b918b66506cc8524fa99113fe116b5a5c89eb14b084822fa28"
+    },
+    {
+      "path": "infer_anomalies.py",
+      "bytes": 1583,
+      "sha256": "7a46f9d8d171aa6fcbd3a8197ddfe1f5a621db6f908858fe14b53f25270391ad"
+    },
+    {
+      "path": "model/anomaly_detector.joblib",
+      "bytes": 489512,
+      "sha256": "24571588f3bc5ca4eab3b134f58672309cd19db1e170625e3e2d0478681809b8"
+    },
+    {
+      "path": "model/anomaly_detector.json",
+      "bytes": 218,
+      "sha256": "b5581d43e6da4b9bc03ea65e224849959e5245c0c24a96f5a3241e3045bb9643"
+    },
+    {
+      "path": "README.md",
+      "bytes": 5624,
+      "sha256": "d0b937799aee99e93421bb64fd9e0c9354e43d6db60114351f5b26d111cc6791"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 41,
+      "sha256": "b2657e12a8ac253531e2fe900c5573f52e8219caf3dc41ae6d672fc56ab6becf"
+    },
+    {
+      "path": "train_detector.py",
+      "bytes": 1265,
+      "sha256": "c3ab94552de9ec007bfdfbff7c3e7dc7f86c4eaad879a5bffb2a8b604ab00149"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+# Локальные секреты и ключи
+**/.env
+!**/.env.example
+**/secrets/*.json
+**/*.json.key
+**/service-account*.json
+**/*.pem
+**/*.p12
+
+# Python
+**/.venv/
+**/__pycache__/
+**/.pytest_cache/
+**/*.py[cod]
+
+# Node / frontend builds
+**/node_modules/
+**/.next/
+**/.vinext/
+**/.wrangler/
+**/dist/
+**/*.tsbuildinfo
+
+# Локальные и временные артефакты
+**/tmp/
+**/*.log
+Thumbs.db
+.DS_Store
+
+# Legacy v7 и дубли исходных файлов: актуальный комплект находится в v8 handoff
+/model_review/forecast/NDVI_v7_handoff_0603/
+/doc-1788536686.zip
+/doc-1788536731.csv

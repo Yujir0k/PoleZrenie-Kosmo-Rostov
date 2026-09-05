@@ -1,0 +1,10 @@
+{
+  "model": "anomaly_detector_package\\model\\anomaly_detector.joblib",
+  "trained_fields": 39,
+  "skipped_fields": 0,
+  "training_rows": 99955,
+  "training_period": [
+    "2010-04-01",
+    "2024-10-30"
+  ]
+}

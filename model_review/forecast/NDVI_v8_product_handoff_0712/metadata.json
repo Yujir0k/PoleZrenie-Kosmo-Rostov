@@ -1,0 +1,19 @@
+{
+  "model": "NDVI v8 released-context source-gated",
+  "replacement_leaderboard_rmse": 0.0712,
+  "gap_score_points_from_30": 8.64,
+  "submission_rows": 2323,
+  "submission_target_column": "primary_ndvi_true",
+  "submission_sha256": "BE4F94BECFCED157665E345C4FF811868185CA702ADA61EF701AA76ACD0D618A",
+  "test_sha256": "F7BA087818175EA644FC9FE652C6A3874B5BFCDE7DF197D3E7541CB95876F855",
+  "train_zip_sha256": "08E4F724F616459C944050AA25C1A46D16055501C785FAEDA74EDD907C665FC6",
+  "old_private_sha256": "3C5C0E27EEF8266BCF6DCE09C9B556C073CEE3902C065A94E4EA7A59EDB00993",
+  "old_ground_truth_sha256": "189AD1E271352DCB53B2F54CDC09DDA4912FA9B442B91FA077BF26EA0F902BDD",
+  "fixed_gated_weight": 0.8,
+  "source_classifier_temperature": 0.3,
+  "source_expert_trees": 3500,
+  "source_classifier_trees": 1500,
+  "reproduction_verified_bit_exact": true,
+  "reproduction_max_abs_delta": 0.0,
+  "status": "accepted; v9 iteration increase rejected by leaderboard"
+}

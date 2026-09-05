@@ -1,0 +1,16 @@
+.env
+*.json.key
+service-account*.json
+secrets/*.json
+!secrets/.gitkeep
+data/
+output/
+__pycache__/
+.pytest_cache/
+.venv/
+*.pyc
+web/node_modules/
+web/dist/
+web/.vinext/
+web/.next/
+web/.wrangler/
