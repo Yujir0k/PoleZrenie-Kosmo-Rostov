@@ -87,7 +87,10 @@ services:
         condition: service_healthy
 
   web:
-    build: ./web
+    build:
+      context: ./web
+      args:
+        NEXT_PUBLIC_API_URL: ${PUBLIC_API_URL:-http://localhost:8000}
     environment:
       NEXT_PUBLIC_API_URL: ${PUBLIC_API_URL:-http://localhost:8000}
     ports:
