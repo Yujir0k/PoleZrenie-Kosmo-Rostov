@@ -23,7 +23,9 @@ import {
   useMemo,
   useState,
   type CSSProperties,
+  type KeyboardEvent as ReactKeyboardEvent,
   type PointerEvent as ReactPointerEvent,
+  type WheelEvent as ReactWheelEvent,
 } from 'react';
 
 import AddFieldDialog from './add-field-dialog';
@@ -112,6 +114,36 @@ const sceneSatelliteId = (scene: SceneRecord): SatelliteId =>
     : scene.satellite === 'MODIS'
       ? 'modis'
       : 'sentinel2';
+
+function scrollSceneTimeline(event: ReactWheelEvent<HTMLDivElement>) {
+  const timeline = event.currentTarget;
+  const distance =
+    Math.abs(event.deltaX) > Math.abs(event.deltaY)
+      ? event.deltaX
+      : event.deltaY;
+  const maxScroll = timeline.scrollWidth - timeline.clientWidth;
+
+  if (!distance || maxScroll <= 0) return;
+
+  const nextPosition = Math.min(
+    maxScroll,
+    Math.max(0, timeline.scrollLeft + distance),
+  );
+  if (nextPosition === timeline.scrollLeft) return;
+
+  event.preventDefault();
+  timeline.scrollLeft = nextPosition;
+}
+
+function navigateSceneTimeline(event: ReactKeyboardEvent<HTMLDivElement>) {
+  if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+
+  event.preventDefault();
+  event.currentTarget.scrollBy({
+    left: event.key === 'ArrowLeft' ? -240 : 240,
+    behavior: 'smooth',
+  });
+}
 
 function NavRail({
   view,
@@ -1247,7 +1279,14 @@ export default function AppShell({
                     </button>
                   ))}
                 </div>
-                <div className="timeline-scroll">
+                <div
+                  className="timeline-scroll"
+                  role="toolbar"
+                  aria-label="Даты спутниковых снимков"
+                  tabIndex={0}
+                  onWheel={scrollSceneTimeline}
+                  onKeyDown={navigateSceneTimeline}
+                >
                   {availableScenes.map((scene) => (
                     <button
                       key={scene.id}
