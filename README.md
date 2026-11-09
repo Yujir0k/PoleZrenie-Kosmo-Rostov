@@ -1,3 +1,15 @@
+## 🥈 КосмоХакатон 2026 · Ростов-на-Дону
+
+Команда **R² negative** заняла **2-е место** на КосмоХакатоне Южного и Северо-Кавказского федеральных округов и получила командный приз **200 000 ₽**. «ПолеЗрение» помогает агроному отслеживать состояние полей по спутниковым данным.
+
+[▶ Смотреть демонстрацию проекта](docs/hackathon/demo.mp4) · [Презентация PDF](docs/hackathon/presentation.pdf)
+
+| Команда | Результат | Приз | Проект |
+|---|---|---|---|
+| **R² negative** | **2-е место** | **200 000 ₽** | Спутниковый мониторинг полей и AI-помощник агронома |
+
+---
+
 <p align="center">
   <img src="platform/web/public/polezrenie-mark.svg" width="88" alt="Логотип ПолеЗрение">
 </p>
@@ -162,7 +174,7 @@ API-ключ остаётся на сервере и не попадает в б
 ### 1. Получить репозиторий
 
 ```bash
-git clone git@gitverse.ru:hackrus.experts/kosmo-rostov_r2_negative_87.git
+git clone https://github.com/Yujir0k/PoleZrenie-Kosmo-Rostov.git
 cd kosmo-rostov_r2_negative_87/platform
 ```
 
@@ -376,3 +388,27 @@ npm run build
 - гипотеза причины сигнала требует полевой проверки;
 - реальные метрики качества сигналов появятся после накопления подтверждений агрономов;
 - конкурсная v8 предназначена для воспроизводимого replacement test, а не для произвольных новых геометрий.
+
+
+## Презентация
+
+[Открыть презентацию в PDF](docs/hackathon/presentation.pdf)
+
+<details>
+<summary>Листать презентацию прямо в README</summary>
+
+<p align="center">
+  <img src="docs/hackathon/slide-1.jpg" alt="ПолеЗрение, слайд 1" width="90%" />
+  <img src="docs/hackathon/slide-2.jpg" alt="ПолеЗрение, слайд 2" width="90%" />
+  <img src="docs/hackathon/slide-3.jpg" alt="ПолеЗрение, слайд 3" width="90%" />
+  <img src="docs/hackathon/slide-4.jpg" alt="ПолеЗрение, слайд 4" width="90%" />
+  <img src="docs/hackathon/slide-5.jpg" alt="ПолеЗрение, слайд 5" width="90%" />
+  <img src="docs/hackathon/slide-6.jpg" alt="ПолеЗрение, слайд 6" width="90%" />
+  <img src="docs/hackathon/slide-7.jpg" alt="ПолеЗрение, слайд 7" width="90%" />
+</p>
+
+</details>
+
+## Диплом
+
+<p align="center"><img src="docs/hackathon/diploma.png" alt="Диплом Игоря Борисова за второе место в КосмоХакатоне" width="75%" /></p>
