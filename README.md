@@ -409,4 +409,4 @@ npm run build
 
 ## Диплом
 
-<p align="center"><img src="docs/hackathon/diploma.png" alt="Диплом Игоря Борисова за второе место в КосмоХакатоне" width="75%" /></p>
+<p align="center"><img src="docs/certificates/02_Kosmo_Rostov_2nd.png" alt="Диплом Игоря Борисова за второе место в КосмоХакатоне" width="75%" /></p>
